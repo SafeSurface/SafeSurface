@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Form, Input, Button, Checkbox, Card, Typography, message, Divider } from 'antd'
 import { UserOutlined, LockOutlined, SecurityScanOutlined, GithubOutlined, GoogleOutlined } from '@ant-design/icons'
+import { authApi } from '@/lib/api'
 
 const { Title, Text, Link } = Typography
 
@@ -20,16 +21,13 @@ export default function LoginPage() {
     const onFinish = async (values: LoginForm) => {
         setLoading(true)
         try {
-            // 模拟登录请求
-            await new Promise(resolve => setTimeout(resolve, 1000))
+            // 调用登录 API
+            await authApi.login(values.username, values.password)
 
-            // TODO: 实际的登录逻辑
-            console.log('Login values:', values)
-
-            message.success('登录成功！')
+            message.success('登录成功')
             router.push('/dashboard')
-        } catch (error) {
-            message.error('登录失败，请检查用户名和密码')
+        } catch (error: any) {
+            message.error(error.message || '登录失败，请检查用户名和密码')
         } finally {
             setLoading(false)
         }

@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: safesurface
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: safesurface
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U safesurface"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # API Service
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://safesurface:password@postgres:5432/safesurface
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: your-secret-key-change-in-production
+      DEBUG: "True"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/api/app:/app/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Worker Service
+  worker:
+    build:
+      context: ./apps/worker
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql+asyncpg://safesurface:password@postgres:5432/safesurface
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      DEBUG: "True"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/worker/worker:/app/worker
+
+  # Celery Beat (定时任务)
+  beat:
+    build:
+      context: ./apps/worker
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql+asyncpg://safesurface:password@postgres:5432/safesurface
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      DEBUG: "True"
+    depends_on:
+      - redis
+      - worker
+    volumes:
+      - ./apps/worker/worker:/app/worker
+    command: celery -A worker.celery_app beat --loglevel=info
+
+  # Web Frontend (Next.js)
+  web:
+    image: node:20-alpine
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - /app/.next
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  redis_data:
