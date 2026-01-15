@@ -1,0 +1,171 @@
+<mxfile host="Electron" modified="2026-01-15T12:04:43.000Z" agent="5.0" version="22.1.0">
+  <diagram name="SafeSurface架构" id="arch">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="2" value="SafeSurface - AI Agent渗透测试框架" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="400" y="40" width="800" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="3" value="前端界面层 (Frontend)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=#1a237e;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fontColor=#E8EAF6;strokeColor=#5c6bc0;fontSize=16;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="120" width="600" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="4" value="React 前端界面" style="text;strokeColor=#7986cb;fillColor=#283593;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E8EAF6;fontSize=14;" vertex="1" parent="3">
+          <mxGeometry y="40" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="5" value="任务管理 / 进度展示 / 结果查看 / 审批" style="text;strokeColor=#9fa8da;fillColor=#303f9f;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#C5CAE9;fontSize=13;" vertex="1" parent="3">
+          <mxGeometry y="80" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="6" value="Redux/Zustand (状态管理) + WebSocket (实时通信)" style="text;strokeColor=#9fa8da;fillColor=#303f9f;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#C5CAE9;fontSize=12;" vertex="1" parent="3">
+          <mxGeometry y="120" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="10" value="控制面 (Control Plane)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=#004d40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fontColor=#E0F2F1;strokeColor=#26a69a;fontSize=16;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="320" width="600" height="280" as="geometry"/>
+        </mxCell>
+        <mxCell id="11" value="FastAPI 后端 (API Gateway)" style="text;strokeColor=#4db6ac;fillColor=#00695c;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E0F2F1;fontSize=14;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry y="40" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="12" value="认证与权限控制 (Auth &amp; RBAC / 多租户)" style="text;strokeColor=#80cbc4;fillColor=#00796b;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#B2DFDB;fontSize=13;" vertex="1" parent="10">
+          <mxGeometry y="80" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="13" value="范围与策略闸门 (Scope &amp; Policy)" style="text;strokeColor=#80cbc4;fillColor=#00796b;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#B2DFDB;fontSize=13;" vertex="1" parent="10">
+          <mxGeometry y="120" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="14" value="任务编排器 (Orchestrator - DAG / 状态机)" style="text;strokeColor=#80cbc4;fillColor=#00897b;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E0F2F1;fontSize=14;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry y="160" width="600" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="15" value="Celery 任务队列 + WebSocket Server" style="text;strokeColor=#80cbc4;fillColor=#00897b;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E0F2F1;fontSize=12;" vertex="1" parent="10">
+          <mxGeometry y="220" width="600" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="20" value="AI Agent 层 (渗透测试流程)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=#311b92;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fontColor=#E1BEE7;strokeColor=#9575cd;fontSize=16;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="760" y="120" width="740" height="480" as="geometry"/>
+        </mxCell>
+        <mxCell id="21" value="规划 Agent (Planner) - 目标拆解 / 测试计划" style="text;strokeColor=#b39ddb;fillColor=#512da8;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1BEE7;fontSize=13;" vertex="1" parent="20">
+          <mxGeometry y="40" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="22" value="信息收集 Agent (Recon) - 资产发现 / 指纹识别" style="text;strokeColor=#b39ddb;fillColor=#512da8;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1BEE7;fontSize=13;" vertex="1" parent="20">
+          <mxGeometry y="80" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="23" value="枚举分析 Agent (Enum) - 服务 / 路由 / 接口" style="text;strokeColor=#b39ddb;fillColor=#512da8;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1BEE7;fontSize=13;" vertex="1" parent="20">
+          <mxGeometry y="120" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="24" value="风险分析 Agent (Vuln) - 漏洞归类 / 去重 / 评级" style="text;strokeColor=#b39ddb;fillColor=#512da8;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1BEE7;fontSize=13;" vertex="1" parent="20">
+          <mxGeometry y="160" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="25" value="验证 Agent (Verify - 可选) - 证据增强 / 低风险验证" style="text;strokeColor=#b39ddb;fillColor=#512da8;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1BEE7;fontSize=13;" vertex="1" parent="20">
+          <mxGeometry y="200" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="26" value="报告 Agent (Report) - 结论整理 / 修复建议" style="text;strokeColor=#b39ddb;fillColor=#512da8;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1BEE7;fontSize=13;" vertex="1" parent="20">
+          <mxGeometry y="240" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="27" value="审查 Agent (Critic) - 越界检查 / 质量校验" style="text;strokeColor=#b39ddb;fillColor=#512da8;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1BEE7;fontSize=13;" vertex="1" parent="20">
+          <mxGeometry y="280" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="28" value="━━━━━━━━━━━━━━━━━━━━━━━━━━━━" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#9575cd;fontSize=12;" vertex="1" parent="20">
+          <mxGeometry y="320" width="740" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="29" value="知识库：漏洞库 / 利用脚本 / 攻击模式" style="text;strokeColor=#ce93d8;fillColor=#6a1b9a;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#F3E5F5;fontSize=12;" vertex="1" parent="20">
+          <mxGeometry y="350" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="30" value="记忆系统：短期记忆 / 长期记忆 / 学习引擎 / 反馈循环" style="text;strokeColor=#ce93d8;fillColor=#6a1b9a;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#F3E5F5;fontSize=12;" vertex="1" parent="20">
+          <mxGeometry y="390" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="31" value="LLM 基础层 (OpenAI GPT-4 / Claude / Llama / Qwen)" style="text;strokeColor=#ce93d8;fillColor=#4a148c;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#F3E5F5;fontSize=13;fontStyle=1" vertex="1" parent="20">
+          <mxGeometry y="430" width="740" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="40" value="数据面 (Data Plane)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=#b71c1c;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fontColor=#FFEBEE;strokeColor=#ef5350;fontSize=16;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="640" width="600" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="41" value="任务队列 (Celery + Redis/RabbitMQ)" style="text;strokeColor=#ef9a9a;fillColor=#c62828;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#FFEBEE;fontSize=13;" vertex="1" parent="40">
+          <mxGeometry y="40" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="42" value="执行节点 (Worker Nodes) - 工具运行器 / 沙箱" style="text;strokeColor=#ef9a9a;fillColor=#c62828;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#FFEBEE;fontSize=13;" vertex="1" parent="40">
+          <mxGeometry y="80" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="50" value="存储层 (Storage Layer)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=#e65100;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fontColor=#FFF3E0;strokeColor=#ff9800;fontSize=16;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="760" y="640" width="740" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="51" value="PostgreSQL 数据库 - 资产 / 任务 / 发现项" style="text;strokeColor=#ffb74d;fillColor=#ef6c00;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#FFF3E0;fontSize=13;" vertex="1" parent="50">
+          <mxGeometry y="40" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="52" value="证据存储 (File Storage) - 日志 / 响应 / 截图" style="text;strokeColor=#ffb74d;fillColor=#ef6c00;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#FFF3E0;fontSize=13;" vertex="1" parent="50">
+          <mxGeometry y="80" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="53" value="审计日志 (Audit Log) - 全流程可追溯" style="text;strokeColor=#ffb74d;fillColor=#ef6c00;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#FFF3E0;fontSize=13;" vertex="1" parent="50">
+          <mxGeometry y="120" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="54" value="向量数据库 (Vector DB) - 知识库 / Agent记忆 (可选)" style="text;strokeColor=#ffb74d;fillColor=#ef6c00;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#FFF3E0;fontSize=13;" vertex="1" parent="50">
+          <mxGeometry y="160" width="740" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="60" value="外部服务 (External Services)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=#01579b;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fontColor=#E1F5FE;strokeColor=#4fc3f7;fontSize=16;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="800" width="1400" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="61" value="LLM API (OpenAI/Claude) | 漏洞数据库 (CVE/NVD/ExploitDB) | 威胁情报 | 通知服务 (Email/Slack/钉钉)" style="text;strokeColor=#4fc3f7;fillColor=#0277bd;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1F5FE;fontSize=13;" vertex="1" parent="60">
+          <mxGeometry y="40" width="1400" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="62" value="基础设施：Docker | Nginx | Prometheus/Grafana | ELK Stack" style="text;strokeColor=#4fc3f7;fillColor=#0277bd;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1F5FE;fontSize=13;" vertex="1" parent="60">
+          <mxGeometry y="80" width="1400" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="70" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c6bc0;strokeWidth=3;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="6" target="10">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="280" as="sourcePoint"/>
+            <mxPoint x="400" y="320" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="71" value="HTTP/REST" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontColor=#E8EAF6;labelBackgroundColor=#212121;" vertex="1" connectable="0" parent="70">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="72" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9575cd;strokeWidth=4;dashed=1;dashPattern=8 8;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="14" target="21">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="700" y="505" as="sourcePoint"/>
+            <mxPoint x="760" y="180" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="73" value="启动 Agent流程" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontColor=#E1BEE7;labelBackgroundColor=#212121;fontStyle=1" vertex="1" connectable="0" parent="72">
+          <mxGeometry x="0.1" y="2" relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="74" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ef5350;strokeWidth=3;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="15" target="40">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="600" as="sourcePoint"/>
+            <mxPoint x="400" y="640" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="75" value="任务调度" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontColor=#FFEBEE;labelBackgroundColor=#212121;fontStyle=1" vertex="1" connectable="0" parent="74">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="76" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ff9800;strokeWidth=3;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="42" target="51">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="700" y="700" as="sourcePoint"/>
+            <mxPoint x="760" y="700" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="77" value="数据存储" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontColor=#FFF3E0;labelBackgroundColor=#212121;" vertex="1" connectable="0" parent="76">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="80" value="图例说明" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;fillColor=#37474f;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fontColor=#ECEFF1;strokeColor=#78909c;fontSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="960" width="1400" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="81" value="━━━  实线箭头：主要数据流和控制流" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E0E0E0;fontSize=12;" vertex="1" parent="80">
+          <mxGeometry y="30" width="1400" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="82" value="┄┄┄  虚线箭头：AI Agent 调用流程" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#9575cd;fontSize=12;" vertex="1" parent="80">
+          <mxGeometry y="60" width="1400" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="83" value="Agent 工作流：Planner → Recon → Enum → Vuln → Verify → Report → Critic (顺序执行)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#E1BEE7;fontSize=12;" vertex="1" parent="80">
+          <mxGeometry y="90" width="1400" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="84" value="数据流：前端 UI → API → Auth/Policy → Orchestrator → Agent → Worker → Storage" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#B2DFDB;fontSize=12;" vertex="1" parent="80">
+          <mxGeometry y="120" width="1400" height="30" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
