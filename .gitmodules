@@ -1,3 +1,6 @@
 [submodule "apps/backend"]
 	path = apps/backend
 	url = git@github.com:SafeSurface-ai/SafeSurface-Backend.git
+[submodule "apps/web"]
+	path = apps/web
+	url = git@github.com:SafeSurface-ai/SafeSurface-Web.git
