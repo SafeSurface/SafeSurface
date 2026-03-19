@@ -1,0 +1,17 @@
+[project]
+name = "safesurface"
+version = "0.1.0"
+description = "AI Penetration Testing Platform based on LangGraph and MCP"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "langchain>=0.2.0",
+    "langgraph>=0.1.0",
+    "langchain-openai>=0.1.0",
+    "mcp>=1.0.0",
+    "pydantic>=2.0.0"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

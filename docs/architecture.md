@@ -1,68 +1,82 @@
-# SafeSurface.ai 基于大模型的安全攻防智能体系统
+# SafeSurface 进阶架构设计 (Advanced Architecture)
 
-```mermaid
-flowchart LR
-    %% 前端
-    UI[前端界面<br/>任务管理 / 进度展示 / 结果查看 / 审批]
+## 1. 架构核心思想
 
-    %% 控制面
-    API[后端 API<br/>FastAPI]
-    Auth[认证与权限控制<br/>RBAC / 多租户]
-    Policy[范围与策略闸门<br/>Scope & Policy]
-    Orchestrator[任务编排器<br/>DAG / 状态机]
+SafeSurface 采用 **分层规划与反思执行架构（Hierarchical Plan-and-Solve with Reflection）**，结合 LangGraph 的高级特性（如 Sub-graphs、Checkpoints 回溯记忆机制以及 Human-in-the-loop 人类闭环），旨在模拟真实专业渗透测试团队的作业流。
 
-    %% Agent 层（渗透测试流程）
-    subgraph Agents[AI Agent 层（渗透测试流程）]
-        Planner[规划 Agent<br/>目标拆解 / 测试计划]
-        Recon[信息收集 Agent<br/>资产发现 / 指纹识别]
-        Enum[枚举分析 Agent<br/>服务 / 路由 / 接口]
-        Vuln[风险分析 Agent<br/>漏洞归类 / 去重 / 评级]
-        Verify[验证 Agent（可选）<br/>证据增强 / 低风险验证]
-        Report[报告 Agent<br/>结论整理 / 修复建议]
-        Critic[审查 Agent<br/>越界检查 / 质量校验]
+以下是四个维度的核心突破：
+1. **战略与战术分离（Hierarchical Sub-graphs 分层子图）**：分为主脑（Master Planner）和专业团队（各个 Sub-graph）。
+2. **Actor-Critic 反思与验证机制**：在 Payload 投递及漏洞利用等子图中引入 Critic 验证机制，对失败结果通过局部循环进行自我修正。
+3. **动态攻击面状态追踪（Global Attack Tree State）**：全局统一的共享黑板（Blackboard 模式），记录动态攻击树、资产库、隐患等信息。
+4. **Human-in-the-Loop (HITL) 与检查点**：在执行高风险工具前，中断执行并进行人工确认。
+
+## 2. 核心架构图
+
+``mermaid
+graph TD
+    %% 用户与接入层
+    User((Penetration Tester)) <--> |Human-in-the-loop / Auth| API[API Gateway]
+    
+    %% 全局状态与记忆 (LangGraph Memory & Checkpoints)
+    subgraph "Core Memory & State (LangGraph Checkpoints)"
+        GlobalState[Global State: <br/>Attack Tree, Assets, Creds, Vulns]
     end
 
-    %% 数据面
-    Queue[任务队列]
-    Worker[执行节点<br/>工具运行器 / 沙箱]
+    API <--> MasterPlanner
+    
+    %% 第一层：战略规划层 (The Brain)
+    subgraph "Layer 1: Strategy & Planning"
+        MasterPlanner[Master Planner Agent组长]
+        AttackTreeManager[攻击树状态维护]
+        MasterPlanner <--> AttackTreeManager
+        MasterPlanner -.-> |Read/Write| GlobalState
+    end
 
-    %% 存储
-    DB[(数据库<br/>资产 / 任务 / 发现项)]
-    Evidence[(证据存储<br/>日志 / 响应 / 截图)]
-    Audit[(审计日志<br/>全流程可追溯)]
+    %% 第二层：战术执行层 (Sub-graphs 嵌套子图)
+    MasterPlanner --> |Delegate Task| ReconTeam
+    MasterPlanner --> |Delegate Task| VulnResearchTeam
+    MasterPlanner --> |Delegate Task| ExploitTeam
+    
+    subgraph "Layer 2: Tactical Execution (LangGraph Sub-graphs)"
+        
+        %% 侦察子团队
+        subgraph ReconTeam [Recon Sub-graph]
+            OSINT_Agent[OSINT Agent]
+            Scanner_Agent[Scanner Agent]
+        end
+        
+        %% 漏洞研究子团队 (重度依赖 RAG)
+        subgraph VulnResearchTeam [Vuln Research Sub-graph]
+            VulnAnalyzer[Vulnerability Analyzer]
+            PayloadCrafter[Payload Crafter]
+            VulnAnalyzer <--> |RAG| VectorDB[(CVE / ExploitDB / TTPs)]
+            PayloadCrafter <--> |RAG| VectorDB
+        end
+        
+        %% 漏洞利用与绕过子团队 (Actor-Critic 循环)
+        subgraph ExploitTeam [Exploit & Bypass Sub-graph]
+            Executor[Execution Agent]
+            Validator[Critic / Validator Agent]
+            Executor --> |Execute Payload| Validator
+            Validator --> |Analyze Logs/Errors<br/>Provide Feedback| Executor
+        end
+        
+    end
 
-    %% 前端交互
-    UI --> API
-    API --> Auth
-    API --> Policy
-    API --> Orchestrator
+    %% 第三层：物理隔离执行层 (MCP)
+    ReconTeam -.-> |Tool Calls via MCP| MCP_Client
+    ExploitTeam -.-> |Tool Calls via MCP| MCP_Client
+    
+    subgraph "Layer 3: Protocol & Physical Execution Layer"
+        MCP_Client[MCP Client Broker]
+        MCP_Client <--> Nmap[(Nmap MCP Server)]
+        MCP_Client <--> MSF[(Metasploit MCP Server)]
+        MCP_Client <--> Sandbox[(Docker Sandbox Exec)]
+    end
+``
 
-    %% 编排与 Agent
-    Orchestrator --> Planner
-    Planner --> Recon
-    Recon --> Enum
-    Enum --> Vuln
-    Vuln --> Verify
-    Verify --> Report
-    Report --> Critic
-    Critic --> Orchestrator
-
-    %% 执行流程
-    Orchestrator --> Queue
-    Queue --> Worker
-    Worker --> Policy
-
-    %% 数据与证据
-    Worker --> DB
-    Worker --> Evidence
-    Orchestrator --> DB
-
-    %% 审计
-    Orchestrator --> Audit
-    Worker --> Audit
-
-    %% 查询回流
-    DB --> API
-    Evidence --> API
-
-```
+## 3. 技术栈
+- **核心框架**: LangChain, LangGraph
+- **底层依赖**: uv (Python Package Manager), Pydantic (State definition)
+- **协议层**: MCP (Model Context Protocol) 隔离重度系统依赖工具
+- **知识库体系**: RAG (向量检索，用于查询渗透测试库、CVE百科和内部 Runbooks)

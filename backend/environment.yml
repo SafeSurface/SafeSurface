@@ -1,0 +1,19 @@
+name: safesurface
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    - langchain>=0.2.0
+    - langgraph>=0.1.0
+    - langchain-openai>=0.1.0
+    - mcp>=1.0.0
+    - pydantic>=2.0.0
+    - fastapi>=0.110.0
+    - uvicorn>=0.27.0
+    - python-dotenv>=1.0.0
+    - requests>=2.31.0
+    # 为了提供基本的 Web 请求能力 (针对 DVWA)
+    - beautifulsoup4>=4.12.0
