@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     LLM_API_KEY: str 
     LLM_BASE_URL: Optional[str] = None
     LLM_MODEL: str = "deepseek-chat"
+    LLM_TEMPERATURE: float = 0.7
     
     class Config:
         env_file = ".env"

@@ -1,23 +1,62 @@
 import json
 from typing import List
+import pprint
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, ToolMessage
 from pydantic import BaseModel
 
 from app.models.state import SafeSurfaceState
+from app.memory.manager import memory_manager
 
 class ContextManager:
     """
     负责高级上下文管理，核心目标：
-    1. 动态注入战地简报。
+    1. 动态注入战地简报与 RAG 记忆。
     2. 最大限度节省 Token (截断过长的 Tool 输出、折叠古老对话)。
     """
 
     @staticmethod
     def build_global_context(state: SafeSurfaceState) -> str:
         """
-        生成给大模型的全局状态简报，采用紧凑语法，节省 Token
+        生成给大模型的全局状态简报，采用紧凑语法，并自动外挂 RAG
         """
         assets = state.get("assets", {})
+        attack_tree = state.get("attack_tree", {})
+        
+        # 将原始状态字典转换为格式化的字符串
+        asset_str = pprint.pformat(assets, indent=2) if assets else "None"
+        
+        # 处理 attack_tree 可能是 pydantic 模型的情况
+        if hasattr(attack_tree, "model_dump"):
+            tree_str = pprint.pformat(attack_tree.model_dump(), indent=2)
+        else:
+            tree_str = pprint.pformat(attack_tree, indent=2) if attack_tree else "None"
+
+        current_focus = state.get("current_focus", "Unknown Strategy")
+
+        # 核心：通过当前的战术意图（current_focus）去向量库中检索相关联的知识和历史
+        recalled_memory = memory_manager.retrieve_context(query=current_focus, limit=2)
+        episodic_mem_str = "\n".join(recalled_memory.get("episodic", [])) or "None recalled."
+        long_term_mem_str = "\n".join(recalled_memory.get("long_term", [])) or "None recalled."
+
+        return f"""
+            ====== CURRENT MISSION STATE ======
+            [Discovered Assets]
+            {asset_str}
+
+            [Attack Tree / Target Scope]
+            {tree_str}
+
+            [Current Operational Focus]
+            {current_focus}
+
+            ====== PAST EXP & KNOWLEDGE (RAG) ======
+            [Relevant Episodic Memory (Recent findings)]
+            {episodic_mem_str}
+
+            [Long-Term Knowledge / Playbook Tactics]
+            {long_term_mem_str}
+            ===================================
+            """
         tree = state.get("attack_tree", {"pending_targets": [], "exploited_targets": []})
         
         ctx = "<global_state>\n"
